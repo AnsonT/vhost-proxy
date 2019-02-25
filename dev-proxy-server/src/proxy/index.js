@@ -3,12 +3,12 @@ import vhttps from 'vhttps'
 import connect from 'connect'
 import proxy from 'http-proxy-middleware'
 import _ from 'lodash'
-import fs from 'fs'
 import path from 'path'
+import fs from 'fs'
 
-function createHandler (port) {
+function createHandler (target) {
   const redir = proxy({
-    target: `http://localhost:${port}`,
+    target,
     changeOrigin: true, // for vhosted sites, changes host header to match to target's host
     logLevel: 'debug'
   })
@@ -23,21 +23,21 @@ function setupVhosts (config, proxyOptions = {}) {
   const http = connect()
   config = config || {}
   const creds = []
-  const certPath = proxyOptions.certsPath || path.join(process.cwd(), '.certs')
-
-  console.log(process.cwd())
 
   _.forEach(config, (options, host) => {
     if (options.https) {
-      const cert = fs.readFileSync(path.join(certPath, `${host}.pem`))
-      const key = fs.readFileSync(path.join(certPath, `${host}-key.pem`))
-      creds.push({ hostname: host, cert, key })
-      https.use(vhost(host, createHandler(options.port || 8080)))
+      const cert = options.certPath || path.join(options.configPath, `${options.pathname}.pem`)
+      const key = options.keyPath || path.join(options.configPath, `${options.pathname}-key.pem`)
+      creds.push({ hostname: host,
+        cert: fs.readFileSync(cert),
+        key: fs.readFileSync(key) })
+      console.log(`https://${host} -> ${options.target}`)
+      https.use(vhost(host, createHandler(options.target)))
     } else {
-      http.use(vhost(host, createHandler(options.port || 8080)))
+      console.log(`http://${host} -> ${options.target}`)
+      http.use(vhost(host, createHandler(options.target)))
     }
   })
-  console.log(creds)
   return {
     https: vhttps.createServer({}, creds, https),
     http }

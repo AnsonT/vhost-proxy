@@ -1,16 +1,18 @@
 import proxy from '../proxy'
+import { loadVhosts } from '../proxy/vhosts'
 
-function startServers (servers) {
+async function startServers (servers) {
   console.log('startServer', __filename, servers)
-  const vhosts = {
-    'test1.localhost': {
-      port: 3000,
-      https: true
-    },
-    'test2.localhost': {
-      port: 3001
-    }
-  }
+  const vhosts = await loadVhosts()
+  // const vhosts = {
+  //   'test1.localhost': {
+  //     port: 3000,
+  //     https: true
+  //   },
+  //   'test2.localhost': {
+  //     port: 3001
+  //   }
+  // }
   const options = {
     // certsPath: '.certs'
   }
