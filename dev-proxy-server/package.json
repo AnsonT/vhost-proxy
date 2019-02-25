@@ -18,11 +18,13 @@
     "standard": "^12.0.1"
   },
   "dependencies": {
+    "application-config-path": "^0.1.0",
     "async": "^2.6.2",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "connect": "^3.6.6",
     "convict": "^4.4.1",
+    "devcert": "^1.0.0",
     "http-proxy-middleware": "^0.19.1",
     "inquirer": "^6.2.2",
     "is-ip": "^2.0.0",

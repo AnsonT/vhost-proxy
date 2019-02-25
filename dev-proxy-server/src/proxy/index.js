@@ -3,8 +3,10 @@ import vhttps from 'vhttps'
 import connect from 'connect'
 import proxy from 'http-proxy-middleware'
 import _ from 'lodash'
-import path from 'path'
+// import path from 'path'
 import fs from 'fs'
+// import async from 'async'
+// import { certificateFor } from 'devcert'
 
 function createHandler (target) {
   const redir = proxy({
@@ -26,8 +28,11 @@ function setupVhosts (config, proxyOptions = {}) {
 
   _.forEach(config, (options, host) => {
     if (options.https) {
-      const cert = options.certPath || path.join(options.configPath, `${options.pathname}.pem`)
-      const key = options.keyPath || path.join(options.configPath, `${options.pathname}-key.pem`)
+      // const cert = options.certPath || path.join(options.configPath, `${options.pathname}.pem`)
+      // const key = options.keyPath || path.join(options.configPath, `${options.pathname}-key.pem`)
+      const cert = `/Users/ansont/Library/Application Support/devcert/domains/${options.pathname}/certificate.crt`
+      const key = `/Users/ansont/Library/Application Support/devcert/domains/${options.pathname}/private-key.key`
+
       creds.push({ hostname: host,
         cert: fs.readFileSync(cert),
         key: fs.readFileSync(key) })

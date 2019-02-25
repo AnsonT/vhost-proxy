@@ -5,6 +5,7 @@ import { validateUrl } from '../utils/url'
 import { ensurePath } from '../utils/path'
 import config from '../config'
 import { createCert } from '../ca/cert'
+import { certificateFor } from 'devcert'
 
 function loadCA () {
   const caPath = config.get('caPath')
@@ -16,7 +17,7 @@ function loadCA () {
   }
 }
 
-async function ensureCert (vhost) {
+export async function ensureCert (vhost) {
   const vhostsPath = config.get('vhostsPath')
   const configPath = path.resolve(vhostsPath, vhost.pathname)
   const certPath = path.join(configPath, `${vhost.pathname}.pem`)
@@ -71,7 +72,8 @@ async function proxy (domain, { port, target, https, certPath, keyPath }) {
   ensurePath(vhostPath)
 
   if (vhost.https && !vhost.certPath) {
-    await ensureCert(vhost)
+    // await ensureCert(vhost)
+    console.log(await certificateFor(vhost.srcHost, { skipHostsFile: true }))
   }
   const vhostConfigPath = path.resolve(vhostPath, config.get('vhostConfig'))
   fs.writeFileSync(vhostConfigPath, JSON.stringify(vhost, null, 2))
