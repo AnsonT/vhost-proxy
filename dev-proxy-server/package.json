@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "neutrino build",
-    "prepare" : "neutrino build",
+    "prepare": "neutrino build",
     "start": "neutrino start",
     "debug": "neutrino start --debug",
     "lint": "neutrino lint",

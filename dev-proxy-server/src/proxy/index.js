@@ -9,7 +9,7 @@ import async from 'async'
 import { certificateFor } from 'devcert'
 import fs from 'fs'
 
-function createHandler (target) {
+function proxyHandler (target) {
   const redir = proxy({
     target,
     changeOrigin: true, // for vhosted sites, changes host header to match to target's host
@@ -38,10 +38,10 @@ async function setupProxy ({ http, https, host, options, creds }) {
       key: cert.key
     })
     console.log(`https://${host} -> ${options.target}`)
-    https.use(vhost(host, createHandler(options.target)))
+    https.use(vhost(host, proxyHandler(options.target)))
   } else {
     console.log(`http://${host} -> ${options.target}`)
-    http.use(vhost(host, createHandler(options.target)))
+    http.use(vhost(host, proxyHandler(options.target)))
   }
 }
 

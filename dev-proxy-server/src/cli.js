@@ -4,6 +4,7 @@ import startServersCommand from './commands/start-servers'
 import proxyCommand from './commands/proxy'
 import listCommand from './commands/list'
 import deleteCommand from './commands/delete'
+import echoCommand from './commands/echo'
 
 function setupCli () {
   var argv = process.argv
@@ -35,7 +36,7 @@ function setupCli () {
     .option('-t, --target <target>', 'target domain', '127.0.0.1')
     .option('--https', 'https')
     .option('-c, --cert <certPath>', 'path to TLS certificate')
-    .option('-k, --key <keyPath> ', 'path to TLS privaet key')
+    .option('-k, --key <keyPath> ', 'path to TLS private key')
     .description('Proxy a virtual host')
     .action(proxyCommand)
 
@@ -43,7 +44,11 @@ function setupCli () {
     .command('echo <domain>')
     .alias('e')
     .option('-p, --port <port>', 'echo server port', parseInt)
+    .option('--https', 'https')
+    .option('-c, --cert <certPath>', 'path to TLS certificate')
+    .option('-k, --key <keyPath> ', 'path to TLS private key')
     .description('Start an echo server')
+    .action(echoCommand)
 
   program
     .command('list')
