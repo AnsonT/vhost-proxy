@@ -1,8 +1,6 @@
 import program from 'commander'
 import stringArgv from 'string-argv'
 import startServersCommand from './commands/start-servers'
-import installCommand from './commands/install'
-import uninstallCommand from './commands/uninstall'
 import proxyCommand from './commands/proxy'
 import listCommand from './commands/list'
 import deleteCommand from './commands/delete'
@@ -24,18 +22,6 @@ function setupCli () {
     .version('0.0.1', '-v, --version')
 
   program
-    .command('install')
-    .description('Install root cert authority')
-    .alias('i')
-    .action(installCommand)
-
-  program
-    .command('uninstall')
-    .alias('u')
-    .description('Uninstall root cert authority')
-    .action(uninstallCommand)
-
-  program
     .command('start <server> [servers]')
     .alias('s')
     .description('Start servers [all|dns|proxy]')
@@ -52,6 +38,12 @@ function setupCli () {
     .option('-k, --key <keyPath> ', 'path to TLS privaet key')
     .description('Proxy a virtual host')
     .action(proxyCommand)
+
+  program
+    .command('echo <domain>')
+    .alias('e')
+    .option('-p, --port <port>', 'echo server port', parseInt)
+    .description('Start an echo server')
 
   program
     .command('list')

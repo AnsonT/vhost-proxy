@@ -4,9 +4,10 @@ import connect from 'connect'
 import proxy from 'http-proxy-middleware'
 import _ from 'lodash'
 // import path from 'path'
+// import fs from 'fs'
+import async from 'async'
+import { certificateFor } from 'devcert'
 import fs from 'fs'
-// import async from 'async'
-// import { certificateFor } from 'devcert'
 
 function createHandler (target) {
   const redir = proxy({
@@ -20,32 +21,53 @@ function createHandler (target) {
   }
 }
 
-function setupVhosts (config, proxyOptions = {}) {
-  const https = connect()
-  const http = connect()
-  config = config || {}
-  const creds = []
-
-  _.forEach(config, (options, host) => {
-    if (options.https) {
-      // const cert = options.certPath || path.join(options.configPath, `${options.pathname}.pem`)
-      // const key = options.keyPath || path.join(options.configPath, `${options.pathname}-key.pem`)
-      const cert = `/Users/ansont/Library/Application Support/devcert/domains/${options.pathname}/certificate.crt`
-      const key = `/Users/ansont/Library/Application Support/devcert/domains/${options.pathname}/private-key.key`
-
-      creds.push({ hostname: host,
-        cert: fs.readFileSync(cert),
-        key: fs.readFileSync(key) })
-      console.log(`https://${host} -> ${options.target}`)
-      https.use(vhost(host, createHandler(options.target)))
+async function setupProxy ({ http, https, host, options, creds }) {
+  if (options.https) {
+    let cert
+    if (options.certPath) {
+      cert = {
+        cert: fs.readFileSync(options.certPath),
+        key: fs.readFileSync(options.keyPath)
+      }
     } else {
-      console.log(`http://${host} -> ${options.target}`)
-      http.use(vhost(host, createHandler(options.target)))
+      cert = await certificateFor(host)
     }
+    creds.push({
+      hostname: host,
+      cert: cert.cert,
+      key: cert.key
+    })
+    console.log(`https://${host} -> ${options.target}`)
+    https.use(vhost(host, createHandler(options.target)))
+  } else {
+    console.log(`http://${host} -> ${options.target}`)
+    http.use(vhost(host, createHandler(options.target)))
+  }
+}
+
+function setupVhosts (config, proxyOptions = {}) {
+  return new Promise((resolve, reject) => {
+    const https = connect()
+    const http = connect()
+    config = config || {}
+    const creds = []
+
+    async.eachSeries(_.toPairs(config), async ([host, options], cb) => {
+      if (options.type === 'proxy') {
+        await setupProxy({ http, https, host, options, creds })
+        cb()
+      } else if (options.type === 'echo') {
+      }
+    }, (err) => {
+      if (err) reject(err)
+      else {
+        resolve({
+          https: vhttps.createServer({}, creds, https),
+          http
+        })
+      }
+    })
   })
-  return {
-    https: vhttps.createServer({}, creds, https),
-    http }
 }
 
 export default setupVhosts

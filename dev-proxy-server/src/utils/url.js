@@ -3,7 +3,7 @@ export function formatUrl (url, port) {
 }
 export function validateUrl (url) {
   try {
-    const re = /^(https?:\/\/)?((\*\.)?((\w+){1})(\.\w+)+)$/
+    const re = /^(https?:\/\/)?((\*\.)?(([\w-]+){1})(\.[\w-]+)+)$/
     const match = re.exec(url.toLowerCase())
     if (!match) return ({ isValid: false })
     const isHttps = match[1] === 'https://'

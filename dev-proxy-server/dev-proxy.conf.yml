@@ -1,7 +1,0 @@
-api.test.com:
-  port: 3001
-  https: true
-
-test.com:
-  port: 8080
-  https: true

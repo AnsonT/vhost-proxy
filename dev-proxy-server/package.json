@@ -5,17 +5,22 @@
   "license": "MIT",
   "scripts": {
     "build": "neutrino build",
+    "prepare" : "neutrino build",
     "start": "neutrino start",
     "debug": "neutrino start --debug",
     "lint": "neutrino lint",
     "test": "neutrino test"
+  },
+  "bin": {
+    "dev-proxy": "./build/index.js"
   },
   "devDependencies": {
     "@neutrinojs/jest": "^8.3.0",
     "@neutrinojs/node": "^8.3.0",
     "@neutrinojs/standardjs": "^8.3.0",
     "neutrino": "^8.3.0",
-    "standard": "^12.0.1"
+    "standard": "^12.0.1",
+    "webpack-permissions-plugin": "^1.0.0"
   },
   "dependencies": {
     "application-config-path": "^0.1.0",
