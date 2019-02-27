@@ -10,11 +10,15 @@ import { certificateFor } from 'devcert'
 import fs from 'fs'
 // import util from 'util'
 
-function proxyHandler (target) {
+function httpName (isHttps) {
+  return  isHttps ? 'https' : 'http'
+}
+function proxyHandler (host, options) {
+  console.log(`proxy:${httpName(host.https)}://${host} -> ${options.target}`)
   const redir = proxy({
-    target,
+    target: options.target,
     changeOrigin: true, // for vhosted sites, changes host header to match to target's host
-    logLevel: 'debug'
+    logLevel: 'error'
   })
   return (req, res, next) => {
     console.log(req.vhost)
@@ -22,7 +26,8 @@ function proxyHandler (target) {
   }
 }
 
-function echoHandler () {
+function echoHandler (host, options) {
+  console.log(`echo: ${httpName(host.https)}://${host}`)
   return (req, res, next) => {
     // res.end(util.inspect(req))
     const out = {
@@ -45,26 +50,6 @@ function echoHandler () {
         res.setHeader('Content-Type', 'application/json')
         res.end(JSON.stringify(out, null, 2))
       })
-  }
-}
-
-async function setupProxy ({ http, https, host, options }) {
-  if (options.https) {
-    console.log(`https://${host} -> ${options.target}`)
-    https.use(vhost(host, proxyHandler(options.target)))
-  } else {
-    console.log(`http://${host} -> ${options.target}`)
-    http.use(vhost(host, proxyHandler(options.target)))
-  }
-}
-
-async function setupEcho ({ http, https, host, options }) {
-  if (options.https) {
-    console.log(`echo https://${host}`)
-    https.use(vhost(host, echoHandler()))
-  } else {
-    console.log(`echo http://${host}`)
-    http.use(vhost(host, echoHandler()))
   }
 }
 
@@ -92,13 +77,22 @@ function setupVhosts (config, proxyOptions = {}) {
           key: cert.key
         })
       }
+      var handler = null
 
-      if (options.type === 'proxy') {
-        await setupProxy({ http, https, host, options })
+      if (options.type === 'proxy') handler = proxyHandler
+      else if (options.type === 'echo') handler = echoHandler
+      else {
+        console.error(`Invalid vhost type: %{options.type}`)
         cb()
-      } else if (options.type === 'echo') {
-        await setupEcho({ http, https, host, options })
-        cb()
+        return
+      }
+
+      if (handler) {
+        if (options.https) {
+          https.use(vhost(host, handler(host, options)))
+        } else {
+          http.use(vhost(host, handler(host, options)))
+        }
       }
     }, (err) => {
       if (err) reject(err)

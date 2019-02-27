@@ -42,7 +42,7 @@ export async function ensureCert (vhost) {
     }
   }
 }
-export async function addVHost (type, domain, { port, target, https, certPath, keyPath }) {
+export async function addVHost (type, domain, { port, target, https, cors, certPath, keyPath }) {
   if (port !== 'auto' && (!port && target === '127.0.0.1')) {
     console.log('At least one of --port or --target must be specified')
     return 1
@@ -70,6 +70,7 @@ export async function addVHost (type, domain, { port, target, https, certPath, k
     isWildcard: srcUrl.isWildcard,
     target,
     pathname: srcUrl.pathname,
+    cors,
     certPath,
     keyPath
   }
