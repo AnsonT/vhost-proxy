@@ -1,4 +1,4 @@
-import { loadVhosts } from '../proxy/vhosts'
+import { loadVhosts } from '../vhostsServer/vhosts'
 import _ from 'lodash'
 
 async function list () {

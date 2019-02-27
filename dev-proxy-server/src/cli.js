@@ -23,10 +23,10 @@ function setupCli () {
     .version('0.0.1', '-v, --version')
 
   program
-    .command('start <server> [servers]')
+    .command('start')
     .alias('s')
-    .description('Start servers [all|dns|proxy]')
-    .option('-d, --debug <domain>', 'debug')
+    .description('Start')
+    .option('-d, --debug', 'debug')
     .action(startServersCommand)
 
   program
