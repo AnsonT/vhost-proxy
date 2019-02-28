@@ -5,6 +5,7 @@ import proxyCommand from './commands/proxy'
 import listCommand from './commands/list'
 import deleteCommand from './commands/delete'
 import echoCommand from './commands/echo'
+import mockCommand from './commands/mock'
 
 function setupCli () {
   var argv = process.argv
@@ -51,6 +52,16 @@ function setupCli () {
     .option('-k, --key <keyPath> ', 'path to TLS private key')
     .description('Start an echo server')
     .action(echoCommand)
+
+  program
+    .command('mock <domain> <respFile>')
+    .alias('m')
+    .option('-p, --port <port>', 'echo server port', parseInt)
+    .option('--https', 'https')
+    .option('--cors', 'cors support')
+    .option('-c, --cert <certPath>', 'path to TLS certificate')
+    .option('-k, --key <keyPath> ', 'path to TLS private key')
+    .action(mockCommand)
 
   program
     .command('list')
