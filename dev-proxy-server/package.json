@@ -31,6 +31,7 @@
     "connect": "^3.6.6",
     "convict": "^4.4.1",
     "devcert": "^1.0.0",
+    "dns-express": "^1.4.1",
     "http-proxy-middleware": "^0.19.1",
     "inquirer": "^6.2.2",
     "is-ip": "^2.0.0",

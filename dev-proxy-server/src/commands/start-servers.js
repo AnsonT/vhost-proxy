@@ -1,4 +1,5 @@
 import vhostServer from '../vhostsServer'
+import dnsServer from '../vhostsServer/dns'
 import { loadVhosts } from '../vhostsServer/vhosts'
 
 async function startServers ({ debug }) {
@@ -11,6 +12,7 @@ async function startServers ({ debug }) {
     const { http, https } = await vhostServer(vhosts, options)
     http.listen(80, () => { console.log('listening on 127.0.0.1:80') })
     https.listen(443, () => { console.log('listening on 127.0.0.1:443') })
+    dnsServer(vhosts)
   } catch (err) {
     console.error(err)
     process.exit(1)
