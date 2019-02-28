@@ -5,7 +5,11 @@ const path = require('path');
 module.exports = {
   use: [
     '@neutrinojs/standardjs',
-    '@neutrinojs/node',
+    ['@neutrinojs/node', {
+      babel: {
+        plugins: ["transform-object-rest-spread"]
+      }
+    }],
     '@neutrinojs/jest',
     // setup shebang for the command line
     (neutrino) => {

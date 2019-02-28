@@ -3,18 +3,16 @@ import vhttps from 'vhttps'
 import connect from 'connect'
 import proxy from 'http-proxy-middleware'
 import _ from 'lodash'
-// import path from 'path'
-// import fs from 'fs'
 import async from 'async'
 import { certificateFor } from 'devcert'
 import fs from 'fs'
-// import util from 'util'
+import mockHandler from '../mock'
 
 function httpName (isHttps) {
   return isHttps ? 'https' : 'http'
 }
 function proxyHandler (host, options) {
-  console.log(`proxy:${httpName(host.https)}://${host} -> ${options.target}`)
+  console.log(`proxy:${httpName(options.https)}://${host} -> ${options.target}`)
   const redir = proxy({
     target: options.target,
     changeOrigin: true, // for vhosted sites, changes host header to match to target's host
@@ -27,7 +25,7 @@ function proxyHandler (host, options) {
 }
 
 function echoHandler (host, options) {
-  console.log(`echo: ${httpName(host.https)}://${host}`)
+  console.log(`echo: ${httpName(options.https)}://${host}`)
   return (req, res, next) => {
     // res.end(util.inspect(req))
     const out = {
@@ -81,8 +79,9 @@ function setupVhosts (config, proxyOptions = {}) {
 
       if (options.type === 'proxy') handler = proxyHandler
       else if (options.type === 'echo') handler = echoHandler
+      else if (options.type === 'mock') handler = mockHandler
       else {
-        console.error(`Invalid vhost type: %{options.type}`)
+        console.error(`Invalid vhost type: ${options.type}`)
         cb()
         return
       }

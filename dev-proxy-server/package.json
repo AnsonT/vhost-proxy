@@ -18,6 +18,7 @@
     "@neutrinojs/jest": "^8.3.0",
     "@neutrinojs/node": "^8.3.0",
     "@neutrinojs/standardjs": "^8.3.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "neutrino": "^8.3.0",
     "standard": "^12.0.1",
     "webpack-permissions-plugin": "^1.0.0"
@@ -37,6 +38,7 @@
     "lodash": "^4.17.11",
     "node-forge": "^0.7.6",
     "random-int": "^1.0.0",
+    "resolve-path": "^1.4.0",
     "rimraf": "^2.6.3",
     "string-argv": "^0.1.1",
     "url": "^0.11.0",

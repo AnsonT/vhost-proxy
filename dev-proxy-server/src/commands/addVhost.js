@@ -1,12 +1,13 @@
 import Url from 'url'
 import path from 'path'
 import fs from 'fs'
+import resolvePath from 'resolve-path'
 import { validateUrl } from '../utils/url'
 import { ensurePath } from '../utils/path'
 import config from '../config'
 import { certificateFor } from 'devcert'
 
-export async function addVHost (type, domain, { port, target, https, cors, certPath, keyPath }) {
+export async function addVHost (type, domain, { port, target, https, cors, certPath, keyPath, ...other }) {
   if (port !== 'auto' && (!port && target === '127.0.0.1')) {
     console.error('At least one of --port or --target must be specified')
     return 1
@@ -26,6 +27,8 @@ export async function addVHost (type, domain, { port, target, https, cors, certP
       port: targetUrl.port || port
     })
   }
+  if (certPath) certPath = resolvePath(certPath)
+  if (keyPath) keyPath = resolvePath(keyPath)
 
   const vhost = {
     type,
@@ -36,7 +39,8 @@ export async function addVHost (type, domain, { port, target, https, cors, certP
     pathname: srcUrl.pathname,
     cors,
     certPath,
-    keyPath
+    keyPath,
+    ...other
   }
   const vhostPath = path.resolve(config.get('vhostsPath'), srcUrl.pathname)
   ensurePath(vhostPath)
