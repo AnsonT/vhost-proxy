@@ -11,7 +11,7 @@ import fs from 'fs'
 // import util from 'util'
 
 function httpName (isHttps) {
-  return  isHttps ? 'https' : 'http'
+  return isHttps ? 'https' : 'http'
 }
 function proxyHandler (host, options) {
   console.log(`proxy:${httpName(host.https)}://${host} -> ${options.target}`)
@@ -93,6 +93,7 @@ function setupVhosts (config, proxyOptions = {}) {
         } else {
           http.use(vhost(host, handler(host, options)))
         }
+        cb()
       }
     }, (err) => {
       if (err) reject(err)
