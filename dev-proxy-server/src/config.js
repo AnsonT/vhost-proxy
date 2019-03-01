@@ -22,7 +22,23 @@ const configSchema = {
   vhostConfig: {
     doc: 'vhost config filename',
     default: 'vhost.config.json'
+  },
+  dnsPort: {
+    doc: 'DNS Server port',
+    default: 53535,
+    env: 'DEV_PROXY_DNS_PORT'
+  },
+  httpPort: {
+    doc: 'HTTP Server port',
+    default: 80,
+    env: 'DEV_PROXY_HTTP_PORT'
+  },
+  httpsPort: {
+    doc: 'HTTPS Server port',
+    default: 443,
+    env: 'DEV_PROXY_HTTPS_PORT'
   }
+
 }
 
 function initConfig () {

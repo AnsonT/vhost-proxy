@@ -1,13 +1,26 @@
 import _ from 'lodash'
 import { execSync } from 'child_process'
 import path from 'path'
+import fs from 'fs'
+import config from '../config'
 
 export function ensureResolver (options) {
-  const cmd = `mkdir -p /etc/resolver && touch ${path.resolve('/etc/resolver', options.pathname)}`
-  execSync(`sudo -- sh -c '${cmd}'`)
+  const resolver =
+`cat >${path.resolve('/etc/resolver', options.pathname)} <<EOF
+nameserver=127.0.0.1
+port=${config.get('dnsPort')}
+EOF
+`
+  const mkdir = `mkdir -p /etc/resolver`
+  execSync(`sudo -- sh -c '${mkdir} && ${resolver}'`)
 }
-export function removeResolver (options) {
+export function removeResolver (domain) {
+  const resolverPath = path.resolve('/etc/resolver', domain)
 
+  if (fs.existsSync(resolverPath)) {
+    const rm = `sudo rm "${resolverPath}"`
+    execSync(rm)
+  }
 }
 export default function dnsServer (vhosts) {
   let server = require('dns-express')()
@@ -26,6 +39,6 @@ export default function dnsServer (vhosts) {
     // End the response if no "routes" are matched
     res.end()
   })
-  console.log('DNS Listening on 53535')
-  server.listen(53535)
+  console.log(`DNS Listening on ${config.get('dnsPort')}`)
+  server.listen(config.get('dnsPort'))
 }

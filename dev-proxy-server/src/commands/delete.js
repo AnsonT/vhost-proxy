@@ -5,6 +5,7 @@ import rimraf from 'rimraf'
 import { validateUrl } from '../utils/url'
 import config from '../config'
 import _ from 'lodash'
+import { removeResolver } from '../vhostsServer/dns'
 
 export default async function deleteVhost (domain, domains) {
   const vhostsPath = config.get('vhostsPath')
@@ -18,6 +19,9 @@ export default async function deleteVhost (domain, domains) {
       if (!fs.existsSync(vhostPath)) vhostPath = undefined
     }
     return { domain: url, vhostPath }
+  })
+  vhosts.forEach(vhost => {
+    removeResolver(vhost.domain)
   })
   const rimrafPaths = _.compact(_.map(vhosts, vhost => vhost.vhostPath))
   return new Promise((resolve, reject) => {
