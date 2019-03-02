@@ -75,16 +75,6 @@ function setupCli () {
     .action(deleteCommand)
 
   program
-    .command('pause <domain> [domains...]')
-    .alias('P')
-    .description('Pause proxying domain(s)')
-
-  program
-    .command('resume <domain> [domains...]')
-    .alias('r')
-    .description('Resume proxying domain(s)')
-
-  program
     .command('*')
     .action(() => { program.help() })
 
