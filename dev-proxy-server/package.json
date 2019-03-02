@@ -3,13 +3,23 @@
   "version": "0.0.2",
   "main": "index.js",
   "license": "MIT",
+  "author": "Anson Tsao <tsaoa@acm.org>",
+  "homepage": "https://github.com/AnsonT/dev-proxy#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnsonT/dev-proxy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AnsonT/dev-proxy/issues"
+  },
   "scripts": {
     "build": "neutrino build",
     "prepare": "neutrino build",
     "start": "neutrino start",
     "debug": "neutrino start --debug",
     "lint": "neutrino lint",
-    "test": "neutrino test"
+    "test": "neutrino test",
+    "clean": "rimraf build"
   },
   "bin": {
     "dev-proxy": "./build/index.js"
