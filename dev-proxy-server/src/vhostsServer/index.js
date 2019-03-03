@@ -6,12 +6,12 @@ import _ from 'lodash'
 import async from 'async'
 import { certificateFor } from 'devcert'
 import fs from 'fs'
-import mockHandler from '../mock'
+import createMockHandler from '../mock'
 
 function httpName (isHttps) {
   return isHttps ? 'https' : 'http'
 }
-function proxyHandler (host, options) {
+async function createProxyHandler (host, options) {
   console.log(`proxy:${httpName(options.https)}://${host} -> ${options.target}`)
   const redir = proxy({
     target: options.target,
@@ -24,7 +24,7 @@ function proxyHandler (host, options) {
   }
 }
 
-function echoHandler (host, options) {
+async function createEchoHandler (host, options) {
   console.log(`echo: ${httpName(options.https)}://${host}`)
   return (req, res, next) => {
     // res.end(util.inspect(req))
@@ -67,7 +67,7 @@ function setupVhosts (config, proxyOptions = {}) {
             key: fs.readFileSync(options.keyPath)
           }
         } else {
-          cert = await certificateFor(host)
+          cert = await certificateFor(host, { skipHostsFile: true })
         }
         creds.push({
           hostname: host,
@@ -75,22 +75,22 @@ function setupVhosts (config, proxyOptions = {}) {
           key: cert.key
         })
       }
-      var handler = null
+      var createHandler = null
 
-      if (options.type === 'proxy') handler = proxyHandler
-      else if (options.type === 'echo') handler = echoHandler
-      else if (options.type === 'mock') handler = mockHandler
+      if (options.type === 'proxy') createHandler = createProxyHandler
+      else if (options.type === 'echo') createHandler = createEchoHandler
+      else if (options.type === 'mock') createHandler = createMockHandler
       else {
         console.error(`Invalid vhost type: ${options.type}`)
         cb()
         return
       }
 
-      if (handler) {
+      if (createHandler) {
         if (options.https) {
-          https.use(vhost(host, handler(host, options)))
+          https.use(vhost(host, await createHandler(host, options)))
         } else {
-          http.use(vhost(host, handler(host, options)))
+          http.use(vhost(host, await createHandler(host, options)))
         }
         cb()
       }

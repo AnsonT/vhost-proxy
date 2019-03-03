@@ -54,7 +54,7 @@ function setupCli () {
     .action(echoCommand)
 
   program
-    .command('mock <domain> <respFile>')
+    .command('mock <domain> <apiSpec>')
     .alias('m')
     .option('-p, --port <port>', 'echo server port', parseInt)
     .option('--https', 'https')

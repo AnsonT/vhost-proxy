@@ -1,3 +1,7 @@
+export function httpName (isHttps) {
+  return isHttps ? 'https' : 'http'
+}
+
 export function formatUrl (url, port) {
   return ''
 }

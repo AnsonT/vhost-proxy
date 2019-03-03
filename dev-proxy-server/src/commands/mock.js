@@ -2,16 +2,16 @@
 import resolvePath from 'resolve-path'
 import { addVHost } from './addVhost'
 
-async function mock (domain, respFile, { https, cors, certPath, keyPath }) {
-  respFile = resolvePath(respFile)
-  console.log(respFile)
+async function mock (domain, apiSpec, { https, cors, certPath, keyPath }) {
+  apiSpec = resolvePath(apiSpec)
+  console.log(apiSpec)
   const ret = await addVHost('mock', domain, {
     port: 'auto',
     https,
     cors,
     certPath,
     keyPath,
-    respFile })
+    apiSpec })
   process.exit(ret)
 }
 
