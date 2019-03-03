@@ -7,16 +7,16 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch via NPM",
-      "cwd": "${workspaceFolder}/dev-proxy-server/",
+      "name": "Launch via yarn",
+      "runtimeExecutable": "yarn",
+      "stopOnEntry": true,
       "runtimeArgs": [
-        "run-script",
         "debug"
       ],
       "env": {
-        "COMMAND_LINE": "start proxy"
+        "COMMAND_LINE": "start all"
       },
-      "port": 9229
+      "port": 9230
     },
   ]
 }
