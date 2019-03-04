@@ -1,16 +1,16 @@
 {
-  "name": "dev-proxy",
-  "version": "0.0.3",
+  "name": "vhost-proxy",
+  "version": "0.0.5",
   "main": "index.js",
   "license": "MIT",
   "author": "Anson Tsao <tsaoa@acm.org>",
-  "homepage": "https://github.com/AnsonT/dev-proxy#readme",
+  "homepage": "https://github.com/AnsonT/vhost-proxy#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnsonT/dev-proxy.git"
+    "url": "git+https://github.com/AnsonT/vhost-proxy.git"
   },
   "bugs": {
-    "url": "https://github.com/AnsonT/dev-proxy/issues"
+    "url": "https://github.com/AnsonT/vhost-proxy/issues"
   },
   "scripts": {
     "build": "neutrino build",
@@ -22,7 +22,7 @@
     "clean": "rimraf build"
   },
   "bin": {
-    "dev-proxy": "./build/index.js"
+    "vhost-proxy": "./build/index.js"
   },
   "devDependencies": {
     "@neutrinojs/jest": "^8.3.0",

@@ -47,7 +47,6 @@ function setupCli () {
     .alias('e')
     .option('-p, --port <port>', 'echo server port', parseInt)
     .option('--https', 'https')
-    .option('--cors', 'cors support')
     .option('-c, --cert <certPath>', 'path to TLS certificate')
     .option('-k, --key <keyPath> ', 'path to TLS private key')
     .description('Start an echo server')
@@ -56,11 +55,10 @@ function setupCli () {
   program
     .command('mock <domain> <apiSpec>')
     .alias('m')
-    .option('-p, --port <port>', 'echo server port', parseInt)
     .option('--https', 'https')
-    .option('--cors', 'cors support')
     .option('-c, --cert <certPath>', 'path to TLS certificate')
     .option('-k, --key <keyPath> ', 'path to TLS private key')
+    .description('Mock a REST API with Swagger 2.0 spec')
     .action(mockCommand)
 
   program
