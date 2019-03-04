@@ -30,6 +30,17 @@ Commands:
   delete|d <domain> [domains...]        Remove the virtual host proxy for the domain
 ```
 
+### Example Usage
+```
+# Proxy https://www.testdomain.com to the local server 127.0.0.1:8080
+> vhost-proxy proxy https://www.testdomain.com -p 8080
+
+# Mock REST API at https://api.testdomain.com using swagger spec
+> vhost-proxy mock https://api.testdomain.com examples/PetStore.yaml
+
+# Start servers
+> vhost-proxy start
+```
 
 #### Appendix
 This project uses the following libraries

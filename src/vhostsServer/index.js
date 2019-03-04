@@ -1,11 +1,13 @@
 import vhost from 'vhost'
 import vhttps from 'vhttps'
-import connect from 'connect'
+import express from 'express'
 import proxy from 'http-proxy-middleware'
 import _ from 'lodash'
 import async from 'async'
 import { certificateFor } from 'devcert'
 import fs from 'fs'
+import morganBody from 'morgan-body'
+import bodyParser from 'body-parser'
 import createMockHandler from '../mock'
 
 function httpName (isHttps) {
@@ -53,10 +55,15 @@ async function createEchoHandler (host, options) {
 
 function setupVhosts (config, proxyOptions = {}) {
   return new Promise((resolve, reject) => {
-    const https = connect()
-    const http = connect()
+    const https = express()
+    const http = express()
     config = config || {}
     const creds = []
+
+    https.use(bodyParser.json())
+    http.use(bodyParser.json())
+    morganBody(https)
+    morganBody(http)
 
     async.eachSeries(_.toPairs(config), async ([host, options], cb) => {
       if (options.https) {

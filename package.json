@@ -38,6 +38,7 @@
   "dependencies": {
     "application-config-path": "^0.1.0",
     "async": "^2.6.2",
+    "body-parser": "^1.18.3",
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "connect": "^3.6.6",
@@ -51,6 +52,7 @@
     "js-yaml": "^3.12.1",
     "lodash": "^4.17.11",
     "minimatch": "^3.0.4",
+    "morgan-body": "^2.4.5",
     "node-forge": "^0.7.6",
     "random-int": "^1.0.0",
     "resolve-path": "^1.4.0",

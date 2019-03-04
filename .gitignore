@@ -1,4 +1,4 @@
 node_modules
 .history
 build
-dev-proxy-server/.certs
+*.log
