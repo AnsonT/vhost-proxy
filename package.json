@@ -55,7 +55,7 @@
     "resolve-path": "^1.4.0",
     "rimraf": "^2.6.3",
     "string-argv": "^0.1.1",
-    "swagger-mock-api": "^1.6.0",
+    "swagger-mock-api": "ansont/swagger-mock-api",
     "url": "^0.11.0",
     "vhost": "^3.0.2",
     "vhttps": "^0.1.1"
