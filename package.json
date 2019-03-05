@@ -1,6 +1,6 @@
 {
   "name": "vhost-proxy",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "index.js",
   "license": "MIT",
   "author": "Anson Tsao <tsaoa@acm.org>",
@@ -26,8 +26,10 @@
   },
   "files": [
     "/build",
-    "/src",
-    "/examples"
+    "/examples",
+    "package.json",
+    "README.md",
+    "LICENSE"
   ],
   "devDependencies": {
     "@neutrinojs/jest": "^8.3.0",
@@ -51,6 +53,7 @@
     "cors": "^2.8.5",
     "devcert": "^1.0.0",
     "dns-express": "^1.4.1",
+    "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.1",
     "inquirer": "^6.2.2",
     "is-ip": "^2.0.0",
