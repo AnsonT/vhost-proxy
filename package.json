@@ -1,6 +1,6 @@
 {
   "name": "vhost-proxy",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "index.js",
   "license": "MIT",
   "author": "Anson Tsao <tsaoa@acm.org>",
@@ -24,6 +24,9 @@
   "bin": {
     "vhost-proxy": "./build/index.js"
   },
+  "files": [
+    "/build"
+  ],
   "devDependencies": {
     "@neutrinojs/jest": "^8.3.0",
     "@neutrinojs/node": "^8.3.0",
