@@ -58,7 +58,7 @@
     "inquirer": "^6.2.2",
     "is-ip": "^2.0.0",
     "js-yaml": "^3.12.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "minimatch": "^3.0.4",
     "morgan-body": "^2.4.5",
     "node-forge": "^0.7.6",
