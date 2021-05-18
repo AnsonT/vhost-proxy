@@ -51,7 +51,7 @@
     "connect": "^3.6.6",
     "convict": "^4.4.1",
     "cors": "^2.8.5",
-    "devcert": "^1.0.0",
+    "devcert": "^1.1.2",
     "dns-express": "^1.4.1",
     "express": "^4.16.4",
     "http-proxy-middleware": "^0.19.1",
