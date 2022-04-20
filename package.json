@@ -49,7 +49,7 @@
     "chalk": "^2.4.2",
     "commander": "^2.19.0",
     "connect": "^3.6.6",
-    "convict": "^4.4.1",
+    "convict": "^6.2.2",
     "cors": "^2.8.5",
     "devcert": "^1.0.0",
     "dns-express": "^1.4.1",
