@@ -53,7 +53,7 @@
     "cors": "^2.8.5",
     "devcert": "^1.0.0",
     "dns-express": "^1.4.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "http-proxy-middleware": "^0.19.1",
     "inquirer": "^6.2.2",
     "is-ip": "^2.0.0",
